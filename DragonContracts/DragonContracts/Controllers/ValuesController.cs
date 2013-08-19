@@ -3,37 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using DragonContracts.Base;
+using DragonContracts.Models;
+using Raven.Client;
 
 namespace DragonContracts.Controllers
 {
-    public class ValuesController : ApiController
+    public class ContractsController : RavenDbController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public Task<IList<Contract>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Session.Query<Contract>().ToListAsync();
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public async Task<Contract> Get(int id)
         {
-            return "value";
+            return await Session.LoadAsync<Contract>(id.ToString());
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public async Task<HttpResponseMessage> Post([FromBody]Contract value)
         {
+            await Session.StoreAsync(value, value.Id.ToString());
+
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public async Task<HttpResponseMessage> Put(int id, [FromBody]Contract value)
         {
+            await Session.StoreAsync(value, id.ToString());
+
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         // DELETE api/values/5
         public void Delete(int id)
         {
+            Session.Advanced.DocumentStore.DatabaseCommands.Delete(id.ToString(), null);
         }
     }
 }
