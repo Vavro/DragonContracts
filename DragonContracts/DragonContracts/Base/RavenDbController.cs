@@ -23,7 +23,7 @@ namespace DragonContracts.Base
         {
             var docStore = new EmbeddableDocumentStore()
             {
-                DataDirectory = "App_Data"
+                DataDirectory = "App_Data/Raven"
             };
 
             docStore.Initialize();
