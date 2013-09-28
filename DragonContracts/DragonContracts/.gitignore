@@ -1,0 +1,3 @@
+## ignore raven and app_data folders
+App_Data/
+Raven/

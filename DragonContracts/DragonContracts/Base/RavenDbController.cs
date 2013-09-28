@@ -21,48 +21,12 @@ namespace DragonContracts.Base
 
         private static readonly Lazy<IDocumentStore> LazyDocStore = new Lazy<IDocumentStore>(() =>
         {
-            var docStore = new EmbeddableDocumentStore();
+            var docStore = new EmbeddableDocumentStore()
+            {
+                DataDirectory = "App_Data"
+            };
 
             docStore.Initialize();
-
-            using (var session = docStore.OpenSession())
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    var address = new Address()
-                    {
-                        City = "City" + i,
-                        Number = i.ToString(),
-                        Street = "Street" + i,
-                        ZipCode = i.ToString()
-                    };
-
-                    var firstContact = new Contact()
-                    {
-                        Address = address,
-                        Name = "first " + i
-                    };
-
-                    var secondContact = new Contact()
-                    {
-                        Address = address,
-                        Name = "Second " + i
-                    };
-
-                    var contract = new Contract()
-                    {
-                        Id = i,
-                        FirtsParty = firstContact,
-                        SecondParty = secondContact,
-                        Price = i * 10,
-                        SignedOn = DateTime.Now.AddDays(-1 * i),
-                        Subject = "Subject " + i
-                    };
-
-                    session.Store(contract, i.ToString());
-                }
-
-            }
 
             return docStore;
         });

@@ -12,7 +12,7 @@ namespace DragonContracts.Models
         public Contact SecondParty { get; set; }
         public double Price { get; set; }
         public DateTime SignedOn { get; set; }
-        public int Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class Contact
