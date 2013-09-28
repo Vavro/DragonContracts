@@ -11,7 +11,7 @@ using Raven.Client;
 
 namespace DragonContracts.Controllers
 {
-    public class ContractsController : RavenDbController
+    public class ContractsController : DragonContractsController
     {
         // GET api/values
         public async Task<IList<Contract>> Get()

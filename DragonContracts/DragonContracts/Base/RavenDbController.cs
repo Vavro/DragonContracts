@@ -16,7 +16,7 @@ using Raven.Database.Server.Responders;
 
 namespace DragonContracts.Base
 {
-    public class RavenDbController : ApiController
+    public abstract class RavenDbController : ApiController
     {
         private const int RavenWebUiPort = 8081;
 
