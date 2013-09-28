@@ -11,20 +11,27 @@ using DragonContracts.Models;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
+using Raven.Database.Config;
 using Raven.Database.Server.Responders;
 
 namespace DragonContracts.Base
 {
     public class RavenDbController : ApiController
     {
+        private const int RavenWebUiPort = 8081;
+
         public IDocumentStore Store { get { return LazyDocStore.Value; } }
 
         private static readonly Lazy<IDocumentStore> LazyDocStore = new Lazy<IDocumentStore>(() =>
         {
             var docStore = new EmbeddableDocumentStore()
             {
-                DataDirectory = "App_Data/Raven"
+                DataDirectory = "App_Data/Raven",
+                UseEmbeddedHttpServer = true
             };
+
+            docStore.Configuration.Port = RavenWebUiPort;
+            Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(RavenWebUiPort);
 
             docStore.Initialize();
 
