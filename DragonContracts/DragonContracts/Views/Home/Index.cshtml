@@ -1,45 +1,84 @@
-﻿<div id="body">
+﻿@{
+    ViewBag.Title = "Home";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function ContractsViewModel() {
+            var self = this;
+            self.loaded = ko.observable(false);
+            self.contracts = ko.observableArray([]);
+
+            self.createContactFromForm = function (formElement) {
+                // If valid, post the serialized form data to the web api
+                $(formElement).validate();
+                if ($(formElement).valid()) {
+                    $.post("/api/contracts", $(formElement).serialize(), "json")
+                        .done(function (newContact) { self.contracts.push(newContact); });
+                }
+            }
+            self.removeContact = function (contact) {
+                // First remove from the server, then from the UI
+                $.ajax({ type: "DELETE", url: contact.Self })
+                    .done(function () { self.contracts.remove(contact); });
+            }
+
+            // Load the initial state
+            $.getJSON("/api/contracts", self.contracts)
+                .done(function() {
+                     self.loaded(true);
+                });
+        }
+
+        ko.applyBindings(new ContractsViewModel());
+    </script>
+}
+
+<div id="body">
     <section class="featured">
         <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>Welcome to ASP.NET Web API!</h1>
-                <h2>Modify the code in this template to jump-start your ASP.NET Web API development.</h2>
-            </hgroup>
-            <p>
-                ASP.NET Web API allows you to expose your applications, data and services to the
-                web directly over HTTP.
-            </p>
-            <p>
-                To learn more about ASP.NET Web API visit the
-                <a href="http://go.microsoft.com/fwlink/?LinkID=238195" title="ASP.NET Web API Website">ASP.NET Web API Website</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET Web API.
-                If you have any questions about ASP.NET Web API, visit
-                <a href="http://go.microsoft.com/fwlink/?LinkID=238196" title="ASP.NET Web API Forum">our forums</a>.
-            </p>
+            <div>
+                <button>Všechny typy</button>
+                <button>Smlouvy o dílo</button>
+                <button>Mandátní smlouvy</button>
+                <button>Kupní smlouvy</button>
+                <button>Nájemní smlouvy</button>
+                <button>Ostatní smlouvy</button>
+            </div>
         </div>
     </section>
     <section class="content-wrapper main-content clear-fix">
-        <h3>We suggest the following steps:</h3>
-        <ol class="round">
-            <li class="one">
-                <h5>Getting Started</h5>
-                ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-                a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-                is an ideal platform for building RESTful applications on the .NET Framework.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245160">Learn more…</a>
-            </li>
+        <img id="loader" src="images/ajax-loader.gif" data-bind="visible: !loaded()" />
 
-            <li class="two">
-                <h5>Add NuGet packages and jump-start your coding</h5>
-                NuGet makes it easy to install and update free libraries and tools.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245161">Learn more…</a>
+
+        <ul id="contracts" data-bind="visible: loaded, foreach: contracts"><!--  -->
+            <li>
+                <h1 data-bind="text: Subject" class="ui-widget-header"></h1>
+                <div><span data-bind="text:Id"></span></div>
+                <div><span data-bind="text: Price"></span></div>
+                <div><span data-bind="text: SignedOn"></span></div>
+                <!--<div><span data-bind="text: Address || 'Address?'"></span></div>-
+                    <div>
+                        <span data-bind="text: City || 'City?'"></span>,
+                        <span data-bind="text: State || 'State?'"></span>
+                        <span data-bind="text: Zip || 'Zip?'"></span>
+                    </div>
+                <div>
+                    <a data-bind="visible: Email,
+    text: Email,
+    attr: { href: 'mailto:' + Email }"></a>
+                    <span data-bind="visible: !Email">Email?</span>
+                </div>
+                <div>
+                    <a data-bind="visible: Twitter,
+    text: '@@' + Twitter,
+    attr: { href: 'http://twitter.com/' + Twitter }"></a>
+                    <span data-bind="visible: !$data.Twitter">Twitter?</span>
+                </div>-->
+                
             </li>
-            <li class="three">
-                <h5>Find Web Hosting</h5>
-                You can easily find a web hosting company that offers the right mix of features
-                and price for your applications.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245164">Learn more…</a>
-            </li>
-        </ol>
+        </ul>
     </section>
 </div>
