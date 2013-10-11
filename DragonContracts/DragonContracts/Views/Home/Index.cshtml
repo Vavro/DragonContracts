@@ -11,24 +11,26 @@
             self.loaded = ko.observable(false);
             self.contracts = ko.observableArray([]);
 
-            self.createContactFromForm = function(formElement) {
+            self.createContractFromForm = function (formElement) {
                 // If valid, post the serialized form data to the web api
+                alert($(formElement).serialize());
+
                 $(formElement).validate();
-                if ($(formElement).valid()) {
-                    $.post("/api/contracts", $(formElement).serialize(), "json")
-                        .done(function(newContact) { self.contracts.push(newContact); });
-                }
+                //if ($(formElement).valid()) {
+                //    $.post("/api/contracts", $(formElement).serialize(), "json")
+                //        .done(function (newContact) { self.contracts.push(newContact); });
+                //}
             };
 
-            self.removeContact = function(contact) {
+            self.removeContact = function (contact) {
                 // First remove from the server, then from the UI
                 $.ajax({ type: "DELETE", url: contact.Self })
-                    .done(function() { self.contracts.remove(contact); });
+                    .done(function () { self.contracts.remove(contact); });
             };
 
             // Load the initial state
             $.getJSON("/api/contracts", self.contracts)
-                .done(function() {
+                .done(function () {
                     self.loaded(true);
                 });
         }
@@ -51,24 +53,27 @@
         </div>
     </section>
     <section class="content-wrapper main-content clear-fix">
-        <img id="loader" src="images/ajax-loader.gif" data-bind="visible: !loaded()" />
+        <div class="float-left">
+            <img id="loader" src="images/ajax-loader.gif" data-bind="visible: !loaded()" />
 
-        <ul id="contracts" data-bind="visible: loaded, foreach: contracts">
-            <li>
-                <h3 data-bind="text: Subject" class="ui-widget-header"></h3>
-                <div><span data-bind="text:Id"></span></div>
-                <div><span data-bind="text: Price"></span></div>
-                <div><span data-bind="text: SignedOn"></span></div>
-                <div data-bind="with: FirstParty">
-                    @Html.Partial("Partial/ContactView")
-                </div>
-                <div data-bind="with: SecondParty">
-                    @Html.Partial("Partial/ContactView")
-                </div>
-            </li>
-        </ul>
+            <ul id="contracts" data-bind="visible: loaded, foreach: contracts">
+                <li>
+                    <h3 data-bind="text: Subject" class="ui-widget-header"></h3>
+                    <div><span data-bind="text: Id"></span></div>
+                    <div><span data-bind="text: Price"></span></div>
+                    <div><span data-bind="text: SignedOn"></span></div>
+                    <div data-bind="with: FirstParty">
+                        @Html.Partial("Partial/ContactView")
+                    </div>
+                    <div data-bind="with: SecondParty">
+                        @Html.Partial("Partial/ContactView")
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="float-right">
+            @Html.Partial("AddContract")
+        </div>
     </section>
-    <section>
-        
-    </section>
+
 </div>

@@ -306,6 +306,8 @@
     <Content Include="Views\Home\Partial\AddressView.cshtml" />
     <Content Include="Views\Home\Partial\ContactView.cshtml" />
     <Content Include="Views\Home\AddContract.cshtml" />
+    <Content Include="Views\Home\Partial\ContactEditView.cshtml" />
+    <Content Include="Views\Home\Partial\AddressEditView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

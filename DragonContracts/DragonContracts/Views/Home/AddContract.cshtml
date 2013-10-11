@@ -1,0 +1,40 @@
+﻿@model DragonContracts.Models.Contract
+
+<form id="addContract" data-bind="submit: createContractFromForm">
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Contract</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(c => c.Subject)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(c => c.Subject)
+            @Html.ValidationMessageFor(c => c.Subject)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(c => c.Price)
+        </div>
+        <div class="editor-field">
+
+            @Html.EditorFor(c => c.Price)
+            @Html.ValidationMessageFor(c => c.Price)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(c => c.SignedOn)
+        </div>
+        <div class="editor-field">
+
+            @Html.EditorFor(c => c.SignedOn)
+            @Html.ValidationMessageFor(c => c.SignedOn)
+        </div>
+        <div data-bind="with: FirstParty">
+            <span>First Party</span>
+            @Html.Partial("Partial/ContactEditView")
+        </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+</form>
