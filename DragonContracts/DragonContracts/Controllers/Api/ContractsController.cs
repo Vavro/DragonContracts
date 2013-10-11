@@ -43,7 +43,7 @@ namespace DragonContracts.Controllers
                     var contract = new Contract()
                     {
                         Id = i.ToString(),
-                        FirtsParty = firstContact,
+                        FirstParty = firstContact,
                         SecondParty = secondContact,
                         Price = i * 10,
                         SignedOn = DateTime.Now.AddDays(-1 * i),

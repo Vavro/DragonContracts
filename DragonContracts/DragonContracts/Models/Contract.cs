@@ -8,7 +8,7 @@ namespace DragonContracts.Models
     public class Contract
     {
         public string Subject { get; set; }
-        public Contact FirtsParty { get; set; }
+        public Contact FirstParty { get; set; }
         public Contact SecondParty { get; set; }
         public double Price { get; set; }
         public DateTime SignedOn { get; set; }

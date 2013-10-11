@@ -59,7 +59,7 @@ namespace DragonContracts.Tests.Controllers
                 var contract = new Contract()
                 {
                     Id = i.ToString(),
-                    FirtsParty = firstContact,
+                    FirstParty = firstContact,
                     SecondParty = secondContact,
                     Price = i * 10,
                     SignedOn = DateTime.Now.AddDays(-1 * i),
@@ -97,7 +97,7 @@ namespace DragonContracts.Tests.Controllers
                 Price = 1,
                 SignedOn = DateTime.Now,
                 Subject = "test",
-                FirtsParty = new Contact()
+                FirstParty = new Contact()
                 {
                     Address = new Address()
                     {
@@ -140,7 +140,7 @@ namespace DragonContracts.Tests.Controllers
                 Price = 1,
                 SignedOn = DateTime.Now,
                 Subject = "test",
-                FirtsParty = new Contact()
+                FirstParty = new Contact()
                 {
                     Address = new Address()
                     {
