@@ -27,7 +27,7 @@ namespace DragonContracts.Controllers.Api
         // POST api/values
         public async Task<HttpResponseMessage> Post([FromBody]Contract value)
         {
-            await Session.StoreAsync(value, value.Id);
+            await Session.StoreAsync(value);
 
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
