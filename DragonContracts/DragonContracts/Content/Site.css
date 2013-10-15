@@ -500,6 +500,7 @@ textarea {
 .field-validation-error {
     color: #e80c4d;
     font-weight: bold;
+    display: block;
 }
 
 .field-validation-valid {
@@ -507,6 +508,7 @@ textarea {
 }
 
 input.input-validation-error {
+    display: block;
     border: 1px solid #e80c4d;
 }
 
