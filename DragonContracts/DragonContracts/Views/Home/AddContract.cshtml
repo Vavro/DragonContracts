@@ -24,7 +24,7 @@
         </div>
         <div class="editor-field">
             @Html.ValidationMessageFor(c => c.SignedOn)
-            @Html.TextBoxFor(c => c.SignedOn, new { data_bind = "value: SignedOn" @*, datepicker="datepicker" *@})
+            @Html.TextBoxFor(c => c.SignedOn, new { data_bind = "value: SignedOn", datepicker="datepicker"})
         </div>
         <div id="firstParty" data-bind="with: FirstParty">
             @*@Html.LabelFor(c => c.FirstParty)*@

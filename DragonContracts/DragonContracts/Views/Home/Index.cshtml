@@ -3,8 +3,6 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/knockout")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
         function ContractsViewModel() {
@@ -24,8 +22,8 @@
                 if (isValid) {
                     var newContractJs = ko.mapping.toJS(self.newContract);
 
-                    //var json = ko.mapping.toJSON(self.newContract);
-                    //alert(json);
+                    var json = ko.mapping.toJSON(self.newContract);
+                    alert(json);
 
                     //$.post("/api/contract", newContractJs, "json")
                     //    .done(function(status) {
@@ -34,7 +32,9 @@
                     //    });
 
                     self.newContract(ko.mapping.fromJS(self.emptyContractJs));
-                    var now = Date().toLocaleString("cs");
+                    var d = new Date();
+                    var now = d.toLocaleString("cs");
+                    
                     self.newContract().SignedOn(now);
             }
         }
@@ -52,6 +52,9 @@
             .done(function(data) {
                 self.emptyContractJs = data;
                 self.newContract(ko.mapping.fromJS(data));
+
+                $.datepicker.setDefaults($.datepicker.regional['cs']);
+                $("[datepicker='datepicker']").datepicker();
             });
 
         $.getJSON("/api/contracts", self.contracts)
@@ -64,10 +67,19 @@
                 //});
             });
         }
-
-        //$("[datepicker='datepicker']").datepicker();
-
+        
+        jQuery.validator.methods["date"] = function(value, element) {
+            try { jQuery.datepicker.parseDate( 'd.m.yy', value); return true; }
+            catch(e){return false;}
+            };
+        
         ko.applyBindings(new ContractsViewModel());
+
+        //$(function() {
+        //    $.datepicker.setDefaults($.datepicker.regional['cs']);
+        //    $("[datepicker='datepicker']").datepicker();
+        //});
+        
 
     </script>
 }
