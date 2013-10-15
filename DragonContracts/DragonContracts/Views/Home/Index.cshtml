@@ -15,8 +15,10 @@
 
             self.createContractFromForm = function (formElement) {
                 // If valid, post the serialized form data to the web api
-                $(formElement).validate();
-
+                var val = $(formElement).validate();
+                var isValid = val.form();
+                alert(isValid);
+                
                 var data = ko.mapping.toJSON(self.newContract);
                 alert(data);
 
@@ -36,7 +38,7 @@
             };
 
             // Load the initial state
-            $.getJSON("/api/contract", {async: false})
+            $.getJSON("/api/contract")
                 .done(function (data) {
                     self.newContract(ko.mapping.fromJS(data));
                 });

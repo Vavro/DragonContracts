@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -11,12 +12,13 @@ namespace DragonContracts.Models
         {
             FirstParty = new Contact();
             SecondParty = new Contact();
-            Subject = "";
+            Subject = null;
             Price = 0;
             SignedOn = DateTime.Now;
             Id = null;
         }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Pole Předmět je vyžadováno")]
         public string Subject { get; set; }
         public Contact FirstParty { get; set; }
         public Contact SecondParty { get; set; }
@@ -29,7 +31,7 @@ namespace DragonContracts.Models
     {
         public Contact()
         {
-            Name = "";
+            Name = null;
             Address = new Address();
         }
 
@@ -41,10 +43,10 @@ namespace DragonContracts.Models
     {
         public Address()
         {
-            Street = "";
-            Number = "";
-            City = "";
-            ZipCode = "";
+            Street = null;
+            Number = null;
+            City = null;
+            ZipCode = null;
         }
 
         public string Street { get; set; }

@@ -10,7 +10,7 @@
             @Html.LabelFor(c => c.Subject)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(c => c.Subject, new { data_bind = "value: Subject"})
+            @*@Html.EditorFor(c => c.Subject)*@
             @Html.TextBoxFor(c => c.Subject, new { data_bind = "value: Subject"})
             @Html.ValidationMessageFor(c => c.Subject)
         </div>
@@ -18,7 +18,7 @@
             @Html.LabelFor(c => c.Price)
         </div>
         <div class="editor-field">
-
+            @*@Html.EditorFor(c => c.Price)*@
             @Html.TextBoxFor(c => c.Price, new { data_bind = "value: Price"})
             @Html.ValidationMessageFor(c => c.Price)
         </div>
@@ -26,7 +26,7 @@
             @Html.LabelFor(c => c.SignedOn)
         </div>
         <div class="editor-field">
-
+            @*@Html.EditorFor(c => c.SignedOn)*@
             @Html.TextBoxFor(c => c.SignedOn, new { data_bind = "value: SignedOn"})
             @Html.ValidationMessageFor(c => c.SignedOn)
         </div>
