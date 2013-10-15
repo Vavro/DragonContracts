@@ -19,10 +19,15 @@ namespace DragonContracts.Models
         }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Pole Předmět je vyžadováno")]
+        [Display(Name = "Předmět")]
         public string Subject { get; set; }
+        [Display(Name = "Objednatel")]
         public Contact FirstParty { get; set; }
+        [Display(Name = "Zhotovitel")]
         public Contact SecondParty { get; set; }
+        [Display(Name = "Cena")]
         public double Price { get; set; }
+        [Display(Name = "Datum podpisu")]
         public DateTime SignedOn { get; set; }
         public string Id { get; set; }
     }
@@ -36,7 +41,9 @@ namespace DragonContracts.Models
         }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Pole Jméno je vyžadováno")]
+        [Display(Name = "Jméno")]
         public string Name { get; set; }
+        [Display(Name = "Adresa")]
         public Address Address { get; set; }
     }
 
@@ -50,9 +57,13 @@ namespace DragonContracts.Models
             ZipCode = null;
         }
 
+        [Display(Name = "Ulice")]
         public string Street { get; set; }
+        [Display(Name = "Číslo popisné/orientační")]
         public string Number { get; set; }
+        [Display(Name = "Město")]
         public string City { get; set; }
+        [Display(Name = "PSČ")]
         public string ZipCode { get; set; }
     }
 }

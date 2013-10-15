@@ -27,7 +27,8 @@
             @Html.TextBoxFor(c => c.SignedOn, new { data_bind = "value: SignedOn" })
         </div>
         <div id="firstParty" data-bind="with: FirstParty">
-            <span>First Party</span>
+            @*@Html.LabelFor(c => c.FirstParty)*@
+            <label>Objednatel</label>
             <div class="editor-label">
                 @Html.LabelFor(model => model.FirstParty.Name)
             </div>
@@ -36,6 +37,7 @@
                 @Html.TextBoxFor(model => model.FirstParty.Name, new { data_bind = "value: Name" })
             </div>
             <div data-bind="with: Address">
+                @*@Html.LabelFor(c => c.FirstParty.Address)*@
                 <div class="editor-label">
                     @Html.LabelFor(model => model.FirstParty.Address.Street)
                 </div>
@@ -72,7 +74,8 @@
             @*@Html.Partial("Partial/ContactEditView")*@
         </div>
         <div id="secondParty" data-bind="with: SecondParty">
-            <span>Second Party</span>
+            @*@Html.LabelFor(c => c.SecondParty)*@
+            <label>Zhotovitel</label>
             <div class="editor-label">
                 @Html.LabelFor(model => model.SecondParty.Name)
             </div>
@@ -82,6 +85,7 @@
             </div>
 
             <div data-bind="with: Address">
+                @*@Html.LabelFor(c => c.SecondParty.Address)*@
                 <div class="editor-label">
                     @Html.LabelFor(model => model.SecondParty.Address.Street)
                 </div>
