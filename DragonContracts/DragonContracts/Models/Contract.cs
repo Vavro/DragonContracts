@@ -35,6 +35,7 @@ namespace DragonContracts.Models
             Address = new Address();
         }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Pole Jméno je vyžadováno")]
         public string Name { get; set; }
         public Address Address { get; set; }
     }

@@ -1,16 +1,15 @@
 ﻿@model DragonContracts.Models.Contact
 
-
 <div class="editor-label">
     @Html.LabelFor(model => model.Name)
 </div>
 <div class="editor-field">
-    @Html.EditorFor(model => model.Name)
+    @Html.TextBoxFor(model => model.Name, new { data_bind = "value: Name" })
+
     @Html.ValidationMessageFor(model => model.Name)
 </div>
-<div>
+<div data-bind="with: Address">
     @Html.Partial("Partial/AddressEditView")
 </div>
-
 
 

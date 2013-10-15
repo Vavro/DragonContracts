@@ -41,10 +41,15 @@
             $.getJSON("/api/contracts", self.contracts)
                 .done(function () {
                     self.loaded(true);
+
+                    //$("#firstParty").find("[id]").each(function (index, element) {
+                    //    element.parent()
+                    //});
                 });
         }
         
         ko.applyBindings(new ContractsViewModel());
+
 
     </script>
 }
