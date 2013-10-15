@@ -10,6 +10,8 @@
             var self = this;
             self.loaded = ko.observable(false);
             self.contracts = ko.observableArray([]);
+            
+            self.newContract = 
 
             self.createContractFromForm = function (formElement) {
                 // If valid, post the serialized form data to the web api
