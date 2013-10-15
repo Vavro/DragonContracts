@@ -84,13 +84,14 @@
             <ul id="contracts" data-bind="visible: loaded, foreach: contracts">
                 <li>
                     <h3 data-bind="text: Subject" class="ui-widget-header"></h3>
-                    <div><span data-bind="text: Id"></span></div>
                     <div><span data-bind="text: Price"></span></div>
                     <div><span data-bind="text: SignedOn"></span></div>
-                    <div data-bind="with: FirstParty">
+                    <div data-bind="with: FirstParty" >
+                        <label>Objednatel</label>
                         @Html.Partial("Partial/ContactView")
                     </div>
                     <div data-bind="with: SecondParty">
+                        <label>Zhotovitel</label>
                         @Html.Partial("Partial/ContactView")
                     </div>
                 </li>

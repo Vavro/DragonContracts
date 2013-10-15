@@ -27,6 +27,7 @@ namespace DragonContracts.Models
         public Contact SecondParty { get; set; }
         [Display(Name = "Cena")]
         public double Price { get; set; }
+        [DataType(DataType.Date)]
         [Display(Name = "Datum podpisu")]
         public DateTime SignedOn { get; set; }
         public string Id { get; set; }
