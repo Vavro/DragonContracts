@@ -23,15 +23,15 @@
                 if (isValid) {
                     var newContractJs = ko.mapping.toJS(self.newContract);
                     
-                    $.post("/api/contract", newContractJs, "json")
-                        .done(function (status) {
-                            alert(status);
-                            self.contracts.push(newContractJs);
-                        });
+                    //$.post("/api/contract", newContractJs, "json")
+                    //    .done(function (status) {
+                    //        alert(status);
+                    //        self.contracts.push(newContractJs);
+                    //    });
 
                     self.newContract(ko.mapping.fromJS(self.emptyContractJs));
                     var now = Date();
-                    self.newContract.SignedOn(now);
+                    self.newContract().SignedOn(now);
                 }
             };
 
