@@ -9,22 +9,22 @@
             @Html.LabelFor(c => c.Subject)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(c => c.Subject, new { data_bind = "value: Subject" })
             @Html.ValidationMessageFor(c => c.Subject)
+            @Html.TextBoxFor(c => c.Subject, new { data_bind = "value: Subject" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(c => c.Price)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(c => c.Price, new { data_bind = "value: Price" })
             @Html.ValidationMessageFor(c => c.Price)
+            @Html.TextBoxFor(c => c.Price, new { data_bind = "value: Price" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(c => c.SignedOn)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(c => c.SignedOn, new { data_bind = "value: SignedOn" })
             @Html.ValidationMessageFor(c => c.SignedOn)
+            @Html.TextBoxFor(c => c.SignedOn, new { data_bind = "value: SignedOn" })
         </div>
         <div id="firstParty" data-bind="with: FirstParty">
             <span>First Party</span>
@@ -32,42 +32,40 @@
                 @Html.LabelFor(model => model.FirstParty.Name)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(model => model.FirstParty.Name, new { data_bind = "value: Name" })
-
                 @Html.ValidationMessageFor(model => model.FirstParty.Name)
+                @Html.TextBoxFor(model => model.FirstParty.Name, new { data_bind = "value: Name" })
             </div>
-
             <div data-bind="with: Address">
                 <div class="editor-label">
                     @Html.LabelFor(model => model.FirstParty.Address.Street)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.FirstParty.Address.Street, new { data_bind = "value: Street" })
                     @Html.ValidationMessageFor(model => model.FirstParty.Address.Street)
+                    @Html.TextBoxFor(model => model.FirstParty.Address.Street, new { data_bind = "value: Street" })
                 </div>
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.FirstParty.Address.Number)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.FirstParty.Address.Number, new { data_bind = "value: Number" })
                     @Html.ValidationMessageFor(model => model.FirstParty.Address.Number)
+                    @Html.TextBoxFor(model => model.FirstParty.Address.Number, new { data_bind = "value: Number" })
                 </div>
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.FirstParty.Address.City)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.FirstParty.Address.City, new { data_bind = "value: City" })
                     @Html.ValidationMessageFor(model => model.FirstParty.Address.City)
+                    @Html.TextBoxFor(model => model.FirstParty.Address.City, new { data_bind = "value: City" })
                 </div>
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.FirstParty.Address.ZipCode)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.FirstParty.Address.ZipCode, new { data_bind = "value: ZipCode" })
                     @Html.ValidationMessageFor(model => model.FirstParty.Address.ZipCode)
+                    @Html.TextBoxFor(model => model.FirstParty.Address.ZipCode, new { data_bind = "value: ZipCode" })
                 </div>
             </div>
             @*disabled because of validation problems*@
@@ -79,9 +77,8 @@
                 @Html.LabelFor(model => model.SecondParty.Name)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(model => model.SecondParty.Name, new { data_bind = "value: Name" })
-
                 @Html.ValidationMessageFor(model => model.SecondParty.Name)
+                @Html.TextBoxFor(model => model.SecondParty.Name, new { data_bind = "value: Name" })
             </div>
 
             <div data-bind="with: Address">
@@ -89,32 +86,32 @@
                     @Html.LabelFor(model => model.SecondParty.Address.Street)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.SecondParty.Address.Street, new { data_bind = "value: Street" })
                     @Html.ValidationMessageFor(model => model.SecondParty.Address.Street)
+                    @Html.TextBoxFor(model => model.SecondParty.Address.Street, new { data_bind = "value: Street" })
                 </div>
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.SecondParty.Address.Number)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.SecondParty.Address.Number, new { data_bind = "value: Number" })
                     @Html.ValidationMessageFor(model => model.SecondParty.Address.Number)
+                    @Html.TextBoxFor(model => model.SecondParty.Address.Number, new { data_bind = "value: Number" })
                 </div>
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.SecondParty.Address.City)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.SecondParty.Address.City, new { data_bind = "value: City" })
                     @Html.ValidationMessageFor(model => model.SecondParty.Address.City)
+                    @Html.TextBoxFor(model => model.SecondParty.Address.City, new { data_bind = "value: City" })
                 </div>
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.SecondParty.Address.ZipCode)
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(model => model.SecondParty.Address.ZipCode, new { data_bind = "value: ZipCode" })
                     @Html.ValidationMessageFor(model => model.SecondParty.Address.ZipCode)
+                    @Html.TextBoxFor(model => model.SecondParty.Address.ZipCode, new { data_bind = "value: ZipCode" })
                 </div>
             </div>
             @*disabled because of validation problems*@
