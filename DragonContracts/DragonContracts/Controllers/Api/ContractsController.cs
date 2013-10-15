@@ -61,31 +61,12 @@ namespace DragonContracts.Controllers
         }
 
         // GET api/values/5
-        public async Task<Contract> Get(int id)
+        public async Task<IList<Contract>> Get(string filter)
         {
-            return await Session.LoadAsync<Contract>(id.ToString());
+            //todo: filter by subject, contact names now just return all
+            return await Session.Query<Contract>().ToListAsync();
         }
 
-        // POST api/values
-        public async Task<HttpResponseMessage> Post([FromBody]Contract value)
-        {
-            await Session.StoreAsync(value, value.Id.ToString());
-
-            return new HttpResponseMessage(HttpStatusCode.Created);
-        }
-
-        // PUT api/values/5
-        public async Task<HttpResponseMessage> Put(int id, [FromBody]Contract value)
-        {
-            await Session.StoreAsync(value, id.ToString());
-
-            return new HttpResponseMessage(HttpStatusCode.Created);
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-            Session.Advanced.DocumentStore.DatabaseCommands.Delete(id.ToString(), null);
-        }
+       
     }
 }
