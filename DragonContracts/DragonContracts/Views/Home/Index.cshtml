@@ -15,20 +15,15 @@
 
             self.createContractFromForm = function (formElement) {
                 // If valid, post the serialized form data to the web api
+
+                $.validator.unobtrusive.parse($(formElement));
+
                 var val = $(formElement).validate();
                 var isValid = val.form();
-                alert(isValid);
-                
-                var data = ko.mapping.toJSON(self.newContract);
-                alert(data);
-
-                alert($(formElement).serialize());
-
-                
-                //if ($(formElement).valid()) {
-                //    $.post("/api/contracts", $(formElement).serialize(), "json")
-                //        .done(function (newContact) { self.contracts.push(newContact); });
-                //}
+                if (isValid) {
+                    var data = ko.mapping.toJSON(self.newContract);
+                    alert(data);
+                }
             };
 
             self.removeContact = function (contact) {
