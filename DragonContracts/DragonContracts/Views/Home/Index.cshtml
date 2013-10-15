@@ -10,14 +10,19 @@
             var self = this;
             self.loaded = ko.observable(false);
             self.contracts = ko.observableArray([]);
-            
-            self.newContract = 
+
+            self.newContract = ko.observable();
 
             self.createContractFromForm = function (formElement) {
                 // If valid, post the serialized form data to the web api
+                $(formElement).validate();
+
+                var data = ko.mapping.toJSON(self.newContract);
+                alert(data);
+
                 alert($(formElement).serialize());
 
-                $(formElement).validate();
+                
                 //if ($(formElement).valid()) {
                 //    $.post("/api/contracts", $(formElement).serialize(), "json")
                 //        .done(function (newContact) { self.contracts.push(newContact); });
@@ -31,13 +36,19 @@
             };
 
             // Load the initial state
+            $.getJSON("/api/contract", {async: false})
+                .done(function (data) {
+                    self.newContract(ko.mapping.fromJS(data));
+                });
+            
             $.getJSON("/api/contracts", self.contracts)
                 .done(function () {
                     self.loaded(true);
                 });
         }
-
+        
         ko.applyBindings(new ContractsViewModel());
+
     </script>
 }
 
@@ -73,7 +84,7 @@
                 </li>
             </ul>
         </div>
-        <div class="float-right">
+        <div class="float-right" data-bind="with: newContract">
             @Html.Partial("AddContract")
         </div>
     </section>
