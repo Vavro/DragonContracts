@@ -3,6 +3,7 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
@@ -13,7 +14,7 @@
             self.emptyContractJs = null;
             self.newContract = ko.observable();
 
-            self.createContractFromForm = function (formElement) {
+            self.createContractFromForm = function(formElement) {
                 // If valid, post the serialized form data to the web api
 
                 $.validator.unobtrusive.parse($(formElement));
@@ -22,44 +23,51 @@
                 var isValid = val.form();
                 if (isValid) {
                     var newContractJs = ko.mapping.toJS(self.newContract);
-                    
+
+                    //var json = ko.mapping.toJSON(self.newContract);
+                    //alert(json);
+
                     //$.post("/api/contract", newContractJs, "json")
-                    //    .done(function (status) {
+                    //    .done(function(status) {
                     //        alert(status);
                     //        self.contracts.push(newContractJs);
                     //    });
 
                     self.newContract(ko.mapping.fromJS(self.emptyContractJs));
-                    var now = Date();
+                    var now = Date().toLocaleString("cs");
                     self.newContract().SignedOn(now);
-                }
-            };
-
-            self.removeContact = function (contact) {
-                // First remove from the server, then from the UI
-                $.ajax({ type: "DELETE", url: contact.Self })
-                    .done(function () { self.contracts.remove(contact); });
-            };
-
-            // Load the initial state
-            $.getJSON("/api/contract")
-                .done(function (data) {
-                    self.emptyContractJs = data;
-                    self.newContract(ko.mapping.fromJS(data));
-                });
-            
-            $.getJSON("/api/contracts", self.contracts)
-                .done(function () {
-                    self.loaded(true);
-
-                    //$("#firstParty").find("[id]").each(function (index, element) {
-                    //    element.parent()
-                    //});
-                });
+            }
         }
-        
-        ko.applyBindings(new ContractsViewModel());
 
+        ;
+
+        self.removeContact = function(contact) {
+            // First remove from the server, then from the UI
+            $.ajax({ type: "DELETE", url: contact.Self })
+                .done(function() { self.contracts.remove(contact); });
+        };
+
+        // Load the initial state
+        $.getJSON("/api/contract")
+            .done(function(data) {
+                self.emptyContractJs = data;
+                self.newContract(ko.mapping.fromJS(data));
+            });
+
+        $.getJSON("/api/contracts", self.contracts)
+            .done(function() {
+                self.loaded(true);
+
+                //test to rewrite ids for use with Html.Partial
+                //$("#firstParty").find("[id]").each(function (index, element) {
+                //    element.parent()
+                //});
+            });
+        }
+
+        //$("[datepicker='datepicker']").datepicker();
+
+        ko.applyBindings(new ContractsViewModel());
 
     </script>
 }
