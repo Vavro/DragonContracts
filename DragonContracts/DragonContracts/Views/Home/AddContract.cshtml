@@ -29,7 +29,7 @@
             @Html.EditorFor(c => c.SignedOn)
             @Html.ValidationMessageFor(c => c.SignedOn)
         </div>
-        <div data-bind="with: FirstParty">
+        <div @*data-bind="with: FirstParty"*@>
             <span>First Party</span>
             @Html.Partial("Partial/ContactEditView")
         </div>

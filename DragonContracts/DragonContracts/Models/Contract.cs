@@ -9,7 +9,7 @@ namespace DragonContracts.Models
     {
         public Contract()
         {
-            FirstParty =  new Contact();
+            FirstParty = new Contact();
             SecondParty = new Contact();
             Subject = "";
             Price = 0;
