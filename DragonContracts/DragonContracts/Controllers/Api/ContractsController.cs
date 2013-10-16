@@ -65,7 +65,7 @@ namespace DragonContracts.Controllers
             }
         }
 
-        // GET api/values/5
+        // GET api/contracts/filter
         public async Task<IList<Contract>> Get(string filter)
         {
             //todo: filter by subject, contact names now just return all

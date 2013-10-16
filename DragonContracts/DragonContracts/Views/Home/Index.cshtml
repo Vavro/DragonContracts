@@ -11,8 +11,9 @@
             self.contracts = ko.observableArray([]);
             self.emptyContractJs = null;
             self.newContract = ko.observable();
+            self.searchText = ko.observable();
 
-            self.createContractFromForm = function (formElement) {
+            self.createContractFromForm = function(formElement) {
                 // If valid, post the serialized form data to the web api
 
                 $.validator.unobtrusive.parse($(formElement));
@@ -32,33 +33,40 @@
                         });
 
                     self.newContract(ko.mapping.fromJS(self.emptyContractJs));
-                    
+
                     self.newContract().SignedOn(moment().format());
 
                     $("[datepicker='datepicker']").datepicker();
                 }
-            }
+            };
 
-            ;
+            self.searchContracts = function() {
+                self.loaded(false);
+                self.contracts.removeAll();
 
-            self.removeContact = function (contact) {
+                $.getJSON("/api/contracts?filter=" + self.searchText, self.contracts)
+                    .done(function () {
+                        self.loaded(true);
+                    });
+            };
+
+            self.removeContact = function(contact) {
                 // First remove from the server, then from the UI
                 $.ajax({ type: "DELETE", url: contact.Self })
-                    .done(function () { self.contracts.remove(contact); });
+                    .done(function() { self.contracts.remove(contact); });
             };
 
             // Load the initial state
             $.getJSON("/api/contract")
-                .done(function (data) {
+                .done(function(data) {
                     self.emptyContractJs = data;
                     self.newContract(ko.mapping.fromJS(data));
 
-                    $.datepicker.setDefaults($.datepicker.regional['cs']);
                     $("[datepicker='datepicker']").datepicker();
                 });
 
             $.getJSON("/api/contracts", self.contracts)
-                .done(function () {
+                .done(function() {
                     self.loaded(true);
 
                     //test to rewrite ids for use with Html.Partial
@@ -68,48 +76,53 @@
                 });
         }
 
-        jQuery.validator.methods["date"] = function (value, element) {
-            try { jQuery.datepicker.parseDate('d.m.yy', value); return true; }
-            catch (e) { return false; }
+        $(function() {
+            $.datepicker.setDefaults($.datepicker.regional['cs']);
+        });
+
+        jQuery.validator.methods["date"] = function(value, element) {
+            try {
+                jQuery.datepicker.parseDate('d.m.yy', value);
+                return true;
+            } catch(e) {
+                return false;
+            }
         };
 
         moment.lang("cs");
 
         ko.bindingHandlers.date = {
-            init: function (element, valueAccessor, allBindingsAccessor) {
+            init: function(element, valueAccessor, allBindingsAccessor) {
                 var formats = allBindingsAccessor().dateFormats || { from: "", to: "L" };
-                element.onchange = function () {
+                element.onchange = function() {
                     var observable = valueAccessor();
                     var value = moment(element.value, "L");
                     if (value && value.isValid()) {
                         //if format is not set then assume observed is a js date
                         if (formats.from) {
                             observable(value.format(formats.from));
-                        }
-                        else {
+                        } else {
                             observable(value.toDate());
                         }
-                    }
-                    else {
+                    } else {
                         observable("");
                         //ensures element is blank when invalid input is attempted
                         if (element.value) element.value = "";
                     }
                 };
             },
-            update: function (element, valueAccessor, allBindingsAccessor) {
+            update: function(element, valueAccessor, allBindingsAccessor) {
                 var formats = allBindingsAccessor().dateFormats || { from: "", to: "L" };
                 var observable = valueAccessor();
                 var valueUnwrapped = ko.utils.unwrapObservable(observable);
                 if (valueUnwrapped) {
                     element.value = moment(valueUnwrapped).format(formats.to);
-                }
-                else {
+                } else {
                     element.value = "";
                 }
             }
         };
-        
+
         ko.bindingHandlers.dateText = {
             update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
                 var valueUnwrapped = ko.utils.unwrapObservable(valueAccessor());
@@ -120,7 +133,7 @@
 
         ko.applyBindings(new ContractsViewModel());
 
-        //$(function() {
+    //$(function() {
         //    $.datepicker.setDefaults($.datepicker.regional['cs']);
         //    $("[datepicker='datepicker']").datepicker();
         //});
@@ -145,22 +158,27 @@
     <section class="content-wrapper main-content clear-fix">
         <div class="container float-left">
             <img id="loader" src="images/ajax-loader.gif" data-bind="visible: !loaded()" />
-
-            <ul id="contracts" data-bind="visible: loaded, foreach: contracts">
-                <li class="ui-widget-content contract">
-                    <h2 data-bind="text: Subject" class="ui-widget-header"></h2>
-                    <div class="contract-price"><span>Cena: </span><span data-bind="text: Price"></span></div>
-                    <div class="contract-signedOn"><span>Podepsána: </span><span data-bind="dateText: SignedOn"></span></div>
-                    <div class="contract-party" data-bind="with: FirstParty">
-                        <label>Objednatel</label>
-                        @Html.Partial("Partial/ContactView")
-                    </div>
-                    <div class="contract-party" data-bind="with: SecondParty">
-                        <label>Zhotovitel</label>
-                        @Html.Partial("Partial/ContactView")
-                    </div>
-                </li>
-            </ul>
+            <div data-bind="visible: loaded">
+                <form  data-bind="submit: $root.searchContracts">
+                    <input type="text" data-bind="value: searchText"/>
+                    <button type="submit">Hledat</button>
+                </form>
+                <ul id="contracts" data-bind="foreach: contracts">
+                    <li class="ui-widget-content contract">
+                        <h2 data-bind="text: Subject" class="ui-widget-header"></h2>
+                        <div class="contract-price"><span>Cena: </span><span data-bind="text: Price"></span></div>
+                        <div class="contract-signedOn"><span>Podepsána: </span><span data-bind="dateText: SignedOn"></span></div>
+                        <div class="contract-party" data-bind="with: FirstParty">
+                            <label>Objednatel</label>
+                            @Html.Partial("Partial/ContactView")
+                        </div>
+                        <div class="contract-party" data-bind="with: SecondParty">
+                            <label>Zhotovitel</label>
+                            @Html.Partial("Partial/ContactView")
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="addContainer float-left" data-bind="with: newContract">
             @Html.Partial("AddContract")

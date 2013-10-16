@@ -2,5 +2,5 @@
     <span data-bind="text: Street"></span> <span data-bind="text: Number"></span>
 </div>
 <div class="display-field">
-    <span data-bind="text: City"></span>, <span data-bind="text: ZipCode"></span>
+    <span data-bind="text: City"></span><span data-bind="visible: City && ZipCode">, </span><span data-bind="text: ZipCode"></span>
 </div>
