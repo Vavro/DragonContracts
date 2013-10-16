@@ -29,10 +29,10 @@ namespace DragonContracts.Base
             var docStore = new EmbeddableDocumentStore()
             {
                 DataDirectory = "App_Data/Raven",
-                UseEmbeddedHttpServer = true
+                UseEmbeddedHttpServer = true,
+                Configuration = { Port = RavenWebUiPort }
             };
 
-            docStore.Configuration.Port = RavenWebUiPort;
             Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(RavenWebUiPort);
 
             docStore.Initialize();
