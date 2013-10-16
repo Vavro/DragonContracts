@@ -14,7 +14,7 @@ namespace DragonContracts.Models
             SecondParty = new Contact();
             Subject = null;
             Price = 0;
-            SignedOn = DateTime.Now;
+            SignedOn = DateTime.Now.Date.ToLocalTime();
             Id = null;
         }
 

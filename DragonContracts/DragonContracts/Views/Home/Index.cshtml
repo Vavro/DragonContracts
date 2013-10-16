@@ -12,7 +12,7 @@
             self.emptyContractJs = null;
             self.newContract = ko.observable();
 
-            self.createContractFromForm = function(formElement) {
+            self.createContractFromForm = function (formElement) {
                 // If valid, post the serialized form data to the web api
 
                 $.validator.unobtrusive.parse($(formElement));
@@ -32,54 +32,97 @@
                     //    });
 
                     self.newContract(ko.mapping.fromJS(self.emptyContractJs));
-                    var d = new Date();
-                    var now = d.toLocaleString("cs");
                     
-                    self.newContract().SignedOn(now);
+                    self.newContract().SignedOn(moment());
+                }
             }
+
+            ;
+
+            self.removeContact = function (contact) {
+                // First remove from the server, then from the UI
+                $.ajax({ type: "DELETE", url: contact.Self })
+                    .done(function () { self.contracts.remove(contact); });
+            };
+
+            // Load the initial state
+            $.getJSON("/api/contract")
+                .done(function (data) {
+                    self.emptyContractJs = data;
+                    self.newContract(ko.mapping.fromJS(data));
+
+                    $.datepicker.setDefaults($.datepicker.regional['cs']);
+                    $("[datepicker='datepicker']").datepicker();
+                });
+
+            $.getJSON("/api/contracts", self.contracts)
+                .done(function () {
+                    self.loaded(true);
+
+                    //test to rewrite ids for use with Html.Partial
+                    //$("#firstParty").find("[id]").each(function (index, element) {
+                    //    element.parent()
+                    //});
+                });
         }
 
-        ;
-
-        self.removeContact = function(contact) {
-            // First remove from the server, then from the UI
-            $.ajax({ type: "DELETE", url: contact.Self })
-                .done(function() { self.contracts.remove(contact); });
+        jQuery.validator.methods["date"] = function (value, element) {
+            try { jQuery.datepicker.parseDate('d.m.yy', value); return true; }
+            catch (e) { return false; }
         };
 
-        // Load the initial state
-        $.getJSON("/api/contract")
-            .done(function(data) {
-                self.emptyContractJs = data;
-                self.newContract(ko.mapping.fromJS(data));
+        moment.lang("cs");
 
-                $.datepicker.setDefaults($.datepicker.regional['cs']);
-                $("[datepicker='datepicker']").datepicker();
-            });
-
-        $.getJSON("/api/contracts", self.contracts)
-            .done(function() {
-                self.loaded(true);
-
-                //test to rewrite ids for use with Html.Partial
-                //$("#firstParty").find("[id]").each(function (index, element) {
-                //    element.parent()
-                //});
-            });
-        }
+        ko.bindingHandlers.date = {
+            init: function (element, valueAccessor, allBindingsAccessor) {
+                var formats = allBindingsAccessor().dateFormats || { from: "", to: "L" };
+                element.onchange = function () {
+                    var observable = valueAccessor();
+                    var value = moment(element.value, "L");
+                    if (value && value.isValid()) {
+                        //if format is not set then assume observed is a js date
+                        if (formats.from) {
+                            observable(value.format(formats.from));
+                        }
+                        else {
+                            observable(value.toDate());
+                        }
+                    }
+                    else {
+                        observable("");
+                        //ensures element is blank when invalid input is attempted
+                        if (element.value) element.value = "";
+                    }
+                };
+            },
+            update: function (element, valueAccessor, allBindingsAccessor) {
+                var formats = allBindingsAccessor().dateFormats || { from: "", to: "L" };
+                var observable = valueAccessor();
+                var valueUnwrapped = ko.utils.unwrapObservable(observable);
+                if (valueUnwrapped) {
+                    element.value = moment(valueUnwrapped).format(formats.to);
+                }
+                else {
+                    element.value = "";
+                }
+            }
+        };
         
-        jQuery.validator.methods["date"] = function(value, element) {
-            try { jQuery.datepicker.parseDate( 'd.m.yy', value); return true; }
-            catch(e){return false;}
-            };
-        
+        ko.bindingHandlers.dateText = {
+            update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+                var valueUnwrapped = ko.utils.unwrapObservable(valueAccessor());
+                var formatted = moment(valueUnwrapped).format("L");
+                ko.bindingHandlers.text.update(element, function() { return formatted; });
+            }
+        };
+
         ko.applyBindings(new ContractsViewModel());
 
         //$(function() {
         //    $.datepicker.setDefaults($.datepicker.regional['cs']);
         //    $("[datepicker='datepicker']").datepicker();
         //});
-        
+
 
     </script>
 }
@@ -105,8 +148,8 @@
                 <li>
                     <h3 data-bind="text: Subject" class="ui-widget-header"></h3>
                     <div><span data-bind="text: Price"></span></div>
-                    <div><span data-bind="text: SignedOn"></span></div>
-                    <div data-bind="with: FirstParty" >
+                    <div><span data-bind="dateText: SignedOn"></span></div>
+                    <div data-bind="with: FirstParty">
                         <label>Objednatel</label>
                         @Html.Partial("Partial/ContactView")
                     </div>
