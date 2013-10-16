@@ -8,6 +8,7 @@ using System.Web.Http;
 using DragonContracts.Base;
 using DragonContracts.Indexes;
 using DragonContracts.Models;
+using Raven.Abstractions.Data;
 using Raven.Client;
 
 namespace DragonContracts.Controllers
@@ -71,13 +72,38 @@ namespace DragonContracts.Controllers
         {
             try
             {
+                if (String.IsNullOrWhiteSpace(filter))
+                {
+                    return await Get();
+                }
+
                 var contracts = await Session.Query<Contract, Contracts_SubjectAndNames>()
-                    .Search(c => c.Subject, filter)
-                    .Search(c => c.FirstParty.Name, filter)
-                    .Search(c => c.SecondParty.Name, filter)
-                    .ToListAsync();
+                        .Search(c => c.Subject, filter)
+                        .Search(c => c.FirstParty.Name, filter)
+                        .Search(c => c.SecondParty.Name, filter)
+                        .ToListAsync();
 
                 return contracts;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // GET api/contracts/filter
+        public async Task<SuggestionQueryResult> GetSuggest(string suggest)
+        {
+            try
+            {
+                var suggestResult = await Session.Query<Contract, Contracts_SubjectAndNames>()
+                    .Search(c => c.Subject, suggest)
+                    .Search(c => c.FirstParty.Name, suggest)
+                    .Search(c => c.SecondParty.Name, suggest)
+                    .SuggestAsync();
+
+                return suggestResult;
             }
             catch (Exception)
             {

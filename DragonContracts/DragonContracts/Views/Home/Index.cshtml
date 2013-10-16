@@ -79,6 +79,29 @@
         $(function() {
             $.datepicker.setDefaults($.datepicker.regional['cs']);
         });
+        
+        $('#search').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/api/contracts",
+                    data: { suggest: request.term },
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        response($.map(data.Suggestions, function (item) {
+                            return {
+                                label: item
+                            };
+                        }));
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $('#search').val(ui.item.label);
+                return false;
+            },
+            minLength: 1
+        });
 
         jQuery.validator.methods["date"] = function(value, element) {
             try {
@@ -160,7 +183,7 @@
             <img id="loader" src="images/ajax-loader.gif" data-bind="visible: !loaded()" />
             <div data-bind="visible: loaded">
                 <form  data-bind="submit: $root.searchContracts">
-                    <input type="text" data-bind="value: searchText"/>
+                    <input type="text" data-bind="value: searchText, valueUpdate: 'blur'" id="search" placeholder="Vyhledávat podle předmětu a jmen" />
                     <button type="submit">Hledat</button>
                 </form>
                 <ul id="contracts" data-bind="foreach: contracts">
