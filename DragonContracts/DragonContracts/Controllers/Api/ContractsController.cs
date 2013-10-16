@@ -16,6 +16,15 @@ namespace DragonContracts.Controllers
         // GET api/values
         public async Task<IList<Contract>> Get()
         {
+            //await AddTestData();
+
+            var result = Session.Query<Contract>().ToListAsync();
+
+            return await result;
+        }
+
+        private async Task AddTestData()
+        {
             if (await Session.Query<Contract>().AnyAsync() == false)
             {
                 for (int i = 0; i < 10; i++)
@@ -45,8 +54,8 @@ namespace DragonContracts.Controllers
                         Id = i.ToString(),
                         FirstParty = firstContact,
                         SecondParty = secondContact,
-                        Price = i * 10,
-                        SignedOn = DateTime.Now.AddDays(-1 * i),
+                        Price = i*10,
+                        SignedOn = DateTime.Now.AddDays(-1*i),
                         Subject = "Subject " + i
                     };
 
@@ -54,10 +63,6 @@ namespace DragonContracts.Controllers
                     await Session.SaveChangesAsync();
                 }
             }
-
-            var result = Session.Query<Contract>().ToListAsync();
-
-            return await result;
         }
 
         // GET api/values/5
