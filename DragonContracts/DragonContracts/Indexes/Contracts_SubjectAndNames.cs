@@ -20,9 +20,9 @@ namespace DragonContracts.Indexes
                     SecondParty_Name = contract.SecondParty.Name
                 };
 
-            Index(c => c.Subject, FieldIndexing.Default);
-            Index(c => c.FirstParty.Name, FieldIndexing.Default);
-            Index(c => c.SecondParty.Name, FieldIndexing.Default);
+            Index(c => c.Subject, FieldIndexing.Analyzed);
+            Index(c => c.FirstParty.Name, FieldIndexing.Analyzed);
+            Index(c => c.SecondParty.Name, FieldIndexing.Analyzed);
         }
     }
 }
