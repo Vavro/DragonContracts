@@ -160,7 +160,7 @@
             <img id="loader" src="images/ajax-loader.gif" data-bind="visible: !loaded()" />
             <div data-bind="visible: loaded">
                 <form  data-bind="submit: $root.searchContracts">
-                    <input type="text" data-bind="value: searchText"/>
+                    <input type="text" data-bind="value: searchText" placeholder="Hledat dle Předmětu a jmen ve smlouvě"/>
                     <button type="submit">Hledat</button>
                 </form>
                 <ul id="contracts" data-bind="foreach: contracts">

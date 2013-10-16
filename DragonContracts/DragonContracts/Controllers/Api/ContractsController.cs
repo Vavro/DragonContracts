@@ -71,6 +71,11 @@ namespace DragonContracts.Controllers
         {
             try
             {
+                if (String.IsNullOrWhiteSpace(filter))
+                {
+                    return await Get();
+                }
+
                 var contracts = await Session.Query<Contract, Contracts_SubjectAndNames>()
                     .Search(c => c.Subject, filter)
                     .Search(c => c.FirstParty.Name, filter)
