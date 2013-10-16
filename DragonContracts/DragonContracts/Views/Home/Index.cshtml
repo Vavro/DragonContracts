@@ -22,14 +22,14 @@
                 if (isValid) {
                     var newContractJs = ko.mapping.toJS(self.newContract);
 
-                    var json = ko.mapping.toJSON(self.newContract);
-                    alert(json);
+                    //var json = ko.mapping.toJSON(self.newContract);
+                    //alert(json);
 
-                    //$.post("/api/contract", newContractJs, "json")
-                    //    .done(function(status) {
-                    //        alert(status);
-                    //        self.contracts.push(newContractJs);
-                    //    });
+                    $.post("/api/contract", newContractJs, "json")
+                        .done(function(status) {
+                            alert(status);
+                            self.contracts.push(newContractJs);
+                        });
 
                     self.newContract(ko.mapping.fromJS(self.emptyContractJs));
                     
