@@ -44,7 +44,7 @@
                 self.loaded(false);
                 self.contracts.removeAll();
 
-                $.getJSON("/api/contracts?filter=" + self.searchText, self.contracts)
+                $.getJSON("/api/contracts?filter=" + self.searchText(), self.contracts)
                     .done(function () {
                         self.loaded(true);
                     });

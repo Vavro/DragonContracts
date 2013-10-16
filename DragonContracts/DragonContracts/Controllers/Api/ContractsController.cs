@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DragonContracts.Base;
+using DragonContracts.Indexes;
 using DragonContracts.Models;
 using Raven.Client;
 
@@ -54,8 +55,8 @@ namespace DragonContracts.Controllers
                         Id = i.ToString(),
                         FirstParty = firstContact,
                         SecondParty = secondContact,
-                        Price = i*10,
-                        SignedOn = DateTime.Now.AddDays(-1*i),
+                        Price = i * 10,
+                        SignedOn = DateTime.Now.AddDays(-1 * i),
                         Subject = "Subject " + i
                     };
 
@@ -68,10 +69,23 @@ namespace DragonContracts.Controllers
         // GET api/contracts/filter
         public async Task<IList<Contract>> Get(string filter)
         {
-            //todo: filter by subject, contact names now just return all
-            return await Session.Query<Contract>().ToListAsync();
+            try
+            {
+                var contracts = await Session.Query<Contract, Contracts_SubjectAndNames>()
+                    .Search(c => c.Subject, filter)
+                    .Search(c => c.FirstParty.Name, filter)
+                    .Search(c => c.SecondParty.Name, filter)
+                    .ToListAsync();
+
+                return contracts;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-       
+
     }
 }

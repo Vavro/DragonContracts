@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using DragonContracts.Indexes;
 using DragonContracts.Models;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
+using Raven.Client.Indexes;
 using Raven.Database.Config;
 using Raven.Database.Server.Responders;
 
@@ -34,6 +36,8 @@ namespace DragonContracts.Base
             Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(RavenWebUiPort);
 
             docStore.Initialize();
+
+            IndexCreation.CreateIndexes(typeof(Contracts_SubjectAndNames).Assembly, docStore);
 
             return docStore;
         });
