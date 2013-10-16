@@ -106,7 +106,7 @@ h5, h6 {
 
     .main-content {
         background: url("../Images/accent.png") no-repeat;
-        padding-left: 10px;
+        /*padding-left: 10px;*/
         padding-top: 30px;
     }
 
@@ -392,6 +392,50 @@ aside {
 .contact iframe {
     border: 1px solid #333;
     margin: 5px 0 0 10px;
+}
+
+.container {
+    width: 70%;
+}
+
+.addContainer {
+    width: 30%;
+}
+
+#contracts {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+#contracts li {
+    margin: 3px 3px 3px 0;
+    padding: 3px;
+    float: left;
+    width: 300px;
+    background-image: none;
+    background-color: #F5F5F5;
+}
+
+#contracts li h2 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+#contracts .contract-price {
+    display: inline;
+}
+
+#contracts .contract-signedOn {
+    display: inline;
+    float: right;
+}
+
+#contracts .contract-party {
+    width: 50%;
+    float: left;
 }
 
 /* forms */

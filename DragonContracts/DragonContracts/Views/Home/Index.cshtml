@@ -141,26 +141,26 @@
         </div>
     </section>
     <section class="content-wrapper main-content clear-fix">
-        <div class="float-left">
+        <div class="container float-left">
             <img id="loader" src="images/ajax-loader.gif" data-bind="visible: !loaded()" />
 
             <ul id="contracts" data-bind="visible: loaded, foreach: contracts">
-                <li>
-                    <h3 data-bind="text: Subject" class="ui-widget-header"></h3>
-                    <div><span data-bind="text: Price"></span></div>
-                    <div><span data-bind="dateText: SignedOn"></span></div>
-                    <div data-bind="with: FirstParty">
+                <li class="ui-widget-content contract">
+                    <h2 data-bind="text: Subject" class="ui-widget-header"></h2>
+                    <div class="contract-price"><span>Cena: </span><span data-bind="text: Price"></span></div>
+                    <div class="contract-signedOn"><span>Podepsána: </span><span data-bind="dateText: SignedOn"></span></div>
+                    <div class="contract-party" data-bind="with: FirstParty">
                         <label>Objednatel</label>
                         @Html.Partial("Partial/ContactView")
                     </div>
-                    <div data-bind="with: SecondParty">
+                    <div class="contract-party" data-bind="with: SecondParty">
                         <label>Zhotovitel</label>
                         @Html.Partial("Partial/ContactView")
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="float-right" data-bind="with: newContract">
+        <div class="addContainer float-left" data-bind="with: newContract">
             @Html.Partial("AddContract")
         </div>
     </section>
